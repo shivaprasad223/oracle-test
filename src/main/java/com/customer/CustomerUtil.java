@@ -105,4 +105,20 @@ public class CustomerUtil {
 		}
 		return buildTimemap;
 	}
+	
+	/**
+	 * Prepare uniq customers by zone.
+	 *
+	 * @param zonemap the zonemap
+	 * @return the map
+	 */
+	public Map<String, long[]> prepareUniqCustomersByZone(Map<String, List<Customer>> zonemap) {
+		Map<String, long[]> zoneCountMap = new HashMap<>();
+
+		for (String key : zonemap.keySet()) {
+			zonemap.get(key).stream().mapToLong(Customer::getCustomerId).distinct().toArray();
+			zoneCountMap.put(key, zonemap.get(key).stream().mapToLong(Customer::getCustomerId).distinct().toArray());
+		}
+		return zoneCountMap;
+	}
 }
